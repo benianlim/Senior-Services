@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Stylesheets-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="globalStyle.css">
+    <title>Submit Services</title>
+  </head>
+  <body>
+
+    <!--Header NavBar-->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+
+      <!--Logo for Big screen-->
+      <a class="navbar-brand d-none d-sm-block" href="index.html"><img src="assets/logo.png" alt="SeniorAide Logo" height="60" width="180"></a>
+      <!--Logo for Small screen-->
+      <a class="navbar-brand d-block d-sm-none" href="index.html"><img src="assets/logo.png" alt="SeniorAide Logo" height="40" width="160"></a>
+      <!-- Toggler/collapsible Button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!--Will collapse to button on small screen size-->
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+
+        <ul class="navbar-nav mt-auto"> <!--Header LeftEnd-->
+          <li class="nav-item">
+            <a class="nav-link" href="submit_service_request.html"><button type="button" class="btn btn-primary">Request Service</button></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="svcAccept.html"><button type="button" class="btn btn-primary">Accept Requests</button></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="requests_list.html"><button type="button" class="btn btn-primary">Manage Requests</button></a>
+          </li>
+        </ul>
+
+        <div class="ml-sm-auto"> <!--Header RightEnd-->
+          <a id="avatar" class="navbar-brand nav-item" href="#">
+            <img src="assets/anonavatar.jpg" alt="userAvatar" height="50" width="50">
+          </a>
+          <span class="navbar-text">Not Signed In</span>
+
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlLogin">Log In</button>
+            </li>
+            <li class="nav-item">
+              <a href="signUp.html"><button type="button" class="btn btn-primary">Sign Up</button></a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div class="modal" id="mdlLogin">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header"> <!-- Modal Header -->
+            <h4 class="modal-title">Log In</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <div class="modal-body container"> <!-- Modal body -->
+            <form class="logIn" action="index.html">
+              <label for="username" class="mr-sm-2">Username:</label>
+              <input type="username" class="form-control mb-2 mr-sm-2" id="username" required>
+              <label for="pwd" class="mr-sm-2">Password:</label>
+              <input type="password" class="form-control mb-2 mr-sm-2" id="pwd" required>
+            </div>
+
+            <div class="modal-footer"> <!-- Modal footer -->
+              <button type="submit" class="btn btn-danger">Log In</button>
+            </form>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container-fluid content">
+      <div class="row">
+        <div class="col-lg-6 col-md-4 col-sm-3 col-xs-2 listRequestCol">
+          <h2>List of services</h2>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Service Type</th>
+                <th>Service Code</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Shopping</td>
+                <td>10000</td>
+                <td>Description about shopping service</td>
+              </tr>
+              <tr>
+                <td>Healthcare</td>
+                <td>11000</td>
+                <td>Description about healthcare service</td>
+              </tr>
+              <tr>
+                <td>Transportation</td>
+                <td>12000</td>
+                <td>Description about transportation service</td>
+              </tr>
+              <tr>
+                <td>Food Delivery</td>
+                <td>13000</td>
+                <td>Description about food delivery service</td>
+              </tr>
+              <tr>
+                <td>Personal Care</td>
+                <td>14000</td>
+                <td>Description about personal care service</td>
+              </tr>
+              <tr>
+                <td>Gardening</td>
+                <td>15000</td>
+                <td>Description about gardening service</td>
+              </tr>
+              <tr>
+                <td>Home Cleaning</td>
+                <td>16000</td>
+                <td>Description about home cleaning service</td>
+              </tr>
+              <tr>
+                <td>Companionship</td>
+                <td>17000</td>
+                <td>Description about companionship service</td>
+              </tr>
+              <tr>
+                <td>Activity Participation</td>
+                <td>18000</td>
+                <td>Description about activity participation service</td>
+              </tr>
+          </table>
+        </div>
+
+        <div class="col-lg-6 col-md-4 col-sm-3 col-xs-2">
+          <h2>Submit Service Request</h2>
+          <form id="submitReqForm" onsubmit="chkFormComplete()" action="index.html">
+            <div class="form-group">
+              <label for="code">Service Code:</label>
+              <select id="selectID" name="serviceID">
+                <option value="10000">10000</option>
+                <option value="11000">11000</option>
+                <option value="12000">12000</option>
+                <option value="13000">13000</option>
+                <option value="14000">14000</option>
+                <option value="15000">15000</option>
+                <option value="16000">16000</option>
+                <option value="17000">17000</option>
+                <option value="18000">18000</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="requiredDate">Date:</label>
+              <input type="date" class="form-control" id="requiredDate" required>
+            </div>
+            <div class="form-group">
+              <label for="notes">Notes (optional):</label>
+              <textarea class="form-control" rows="2" id="notes"></textarea>
+            </div>
+            <button type="submit" id="btnSubmit" class="btn btn-primary">Submit Request</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--Footer-->
+    <footer class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+      <div class="navbar-text"> <!--Footer LeftEnd-->
+        Copyright &#169; SeniorAide 2018
+      </div>
+
+      <div class="navbar-text ml-sm-auto"> <!--Footer RightEnd-->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="signUp.html">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+
+    </footer>
+
+  </body>
+
+  <!--Bootstrap Scripts-->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+  <script>
+  function chkFormComplete() {
+    const submitReqForm = document.getElementByID('submitReqForm');
+    const date = document.getElementById('requiredDate');
+
+    var isValid = false;
+
+    if (!date.checkValidity()) {
+      isValid = false;
+      break;
+    }
+    else {
+      isValid = true;
+    }
+
+    if (isValid == true) {
+      window.alert("Your request has been submitted.");
+    }
+    else {
+      window.alert("Please fill out the required fields.")
+    }
+  }
+  </script>
+</html>
