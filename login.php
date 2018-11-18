@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+  session_start();
   error_reporting(0);
   $servername = "localhost";
   $username = "root";
@@ -10,20 +11,20 @@
   $login= $_POST['username'];
   $pw= $_POST['password'];
 
-  if($login!=''&&$pw!='')
-  {
-   $query="SELECT * FROM user_table WHERE Username ='".$login."' and Password ='".$pw."'";
+          if($login!=''&&$pw!='')
+          {
+           $query="SELECT * FROM user_table WHERE Username ='".$login."' and Password ='".$pw."'";
 
-   $result=mysqli_query($con,$query);
+           $result=mysqli_query($con,$query);
 
-   if(!$result)
-      die("Query Failed: " .  mysqli_error($conn));
-   else{
-       if(mysqli_num_rows($result)>0)
-       {
-          $_SESSION['username']= $login;
-          header("Location: home.php");
-       }
+           if(!$result)
+              die("Query Failed: " .  mysqli_error($conn));
+           else{
+               if(mysqli_num_rows($result)>0)
+               {
+                  $_SESSION['username']= $login;
+                  header("Location: home.php");
+               }
       else
        {
          echo '<script language="javascript">';
@@ -71,20 +72,20 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="home.html">SeniorServices</a>
+          <a class="navbar-brand" href="home.php">SeniorServices</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Requests<span class="caret" /></a>
               <ul class="dropdown-menu">
-                <li><a href="request.html">Submit a request</a></li>
-                <li><a href="pendingrequest.html">View pending requests</a></li>
-                <li><a href="manage.html">View request history</a></li>
+                <li><a href="request.php">Submit a request</a></li>
+                <li><a href="pendingrequest.php">View pending requests</a></li>
+                <li><a href="manage.php">View request history</a></li>
               </ul>
             </li>
             <li>
-              <a href="login.html">Login/Sign Up</a>
+              <a href="login.php">Login/Sign Up</a>
             </li>
           </ul>
         </div>
@@ -112,7 +113,7 @@
       </div>
       <div class="row panel-body" align="center">
         <div class="col-md-6 col-md-offset-3">
-          <p>Don't have an account? Click <a href="signup.html">here</a> to register!</p>
+          <p>Don't have an account? Click <a href="signup.php">here</a> to register!</p>
         </div>
       </div>
     </div>
@@ -146,9 +147,9 @@
           <div class="col-md-3 mb-5">
             <h3 class="footer-text-header">Quick Links</h3>
             <ul>
-              <li><a href="request.html">Submit A Request</a></li>
-              <li><a href="pendingrequest.html">View Pending Requests</a></li>
-              <li><a href="manage.html">View Request History</a></li>
+              <li><a href="request.php">Submit A Request</a></li>
+              <li><a href="pendingrequest.php">View Pending Requests</a></li>
+              <li><a href="manage.php">View Request History</a></li>
             </ul>
           </div>
           <div class="col-md-3">

@@ -48,26 +48,26 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="home.html">SeniorServices</a>
+          <a class="navbar-brand" href="home.php">SeniorServices</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Requests<span class="caret" /></a>
               <ul class="dropdown-menu">
-                <li><a href="request.html">Submit a request</a></li>
-                <li><a href="pendingrequest.html">View pending requests</a></li>
-                <li><a href="manage.html">View request history</a></li>
+                <li><a href="request.php">Submit a request</a></li>
+                <li><a href="pendingrequest.php">View pending requests</a></li>
+                <li><a href="manage.php">View request history</a></li>
               </ul>
             </li>
             <li>
-              <a href="login.html">Login/Sign Up</a>
+              <a href="login.php">Login/Sign Up</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-<form id="myform" name="RegForm" method="post" action="user.php">
+<form id="myform" name="RegForm" method="post" action="user.php" autocomplete="off">
 <div class ="bg-img">
     <div class="container panel panel-default">
       <div class="row panel-body">
@@ -161,7 +161,7 @@
 
       <div class="row panel-body" align="center">
         <div class="col-md-6 col-md-offset-3">
-          <p>Already have an account? Click <a href="login.html">here</a> to login!</p>
+          <p>Already have an account? Click <a href="login.php">here</a> to login!</p>
         </div>
       </div>
     </div>
@@ -195,9 +195,9 @@
           <div class="col-md-3 mb-5">
             <h3 class="footer-text-header">Quick Links</h3>
             <ul>
-              <li><a href="request.html">Submit A Request</a></li>
-              <li><a href="pendingrequest.html">View Pending Requests</a></li>
-              <li><a href="manage.html">View Request History</a></li>
+              <li><a href="request.php">Submit A Request</a></li>
+              <li><a href="pendingrequest.php">View Pending Requests</a></li>
+              <li><a href="manage.php">View Request History</a></li>
             </ul>
           </div>
           <div class="col-md-3">
