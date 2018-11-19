@@ -6,15 +6,15 @@ $password = "";
 $dbname = "requests_database";
 $con = new mysqli($servername, $username, $password, $dbname);
 
+$serviceCode = $_POST['serviceCode'];
 $requestDate = $_POST['requestDate'];
-// $requestTime = $_POST['requestTime'];
+$date = date ('Y-m-d', strtotime($requestDate));
+//$requestTime = $_POST['requestTime'];
 $notes = $_POST['notes'];
-
-$requestID = null;
 $status = "Pending";
 
-$sql = "INSERT INTO request_table (requestID, requestDate, notes, status)
-        VALUES ('$requestID', '$requestDate', '$notes', '$status')";
+$sql = "INSERT INTO request_table (requestID, serviceCode, requestDate, notes, status)
+        VALUES (NULL, '$serviceCode', '$date', '$notes', '$status')";
 
 mysqli_query($con, $sql);
 mysqli_close($con);
@@ -26,6 +26,5 @@ if(isset($_POST['submitButton'])) {
 
   header("Location: request.php");
   exit();
-}
+}*/
 ?>
-*/
