@@ -6,10 +6,11 @@ $password = "";
 $dbname = "requests_database";
 $con = new mysqli($servername, $username, $password, $dbname);
 
+if (isset($_POST['submitButton'])) {
+
 $serviceCode = $_POST['serviceCode'];
 $requestDate = $_POST['requestDate'];
 $date = date ('Y-m-d', strtotime($requestDate));
-//$requestTime = $_POST['requestTime'];
 $notes = $_POST['notes'];
 $status = "Pending";
 
@@ -17,6 +18,7 @@ $sql = "INSERT INTO request_table (requestID, serviceCode, requestDate, notes, s
         VALUES (NULL, '$serviceCode', '$date', '$notes', '$status')";
 
 mysqli_query($con, $sql);
+}
 mysqli_close($con);
 
 /*
