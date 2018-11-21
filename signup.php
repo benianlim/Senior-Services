@@ -18,19 +18,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!--script>
-      $(document).ready(function() {
-        $("#seniorRadio").click(function() {
-          $("#serviceProviderRadio").prop("checked", false);
-          $("#serviceList").prop("disabled", true);
-        });
-        $("#serviceProviderRadio").click(function() {
-          $("#seniorRadio").prop("checked", false);
-          $("#serviceList").prop("enabled", true);
-        });
-      });
-    </script-->
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -56,7 +43,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Requests<span class="caret" /></a>
               <ul class="dropdown-menu">
                 <li><a href="request.php">Submit a request</a></li>
-                <li><a href="pendingrequest.php">View pending requests</a></li>
+                <li><a href="selectRequest.php">View pending requests</a></li>
                 <li><a href="manage.php">View request history</a></li>
               </ul>
             </li>
@@ -67,16 +54,16 @@
         </div>
       </div>
     </nav>
-<form id="myform" name="RegForm" method="post" action="user.php" autocomplete="off">
-<div class ="bg-img">
+
+  <div class ="bg-img">
     <div class="container panel panel-default">
       <div class="row panel-body">
         <div class="col-md-6 col-md-offset-3">
           <h3 align="center">SeniorServices Sign Up</h3>
-          <form role="form" method="post">
+          <form role="form" method="post" action="user.php">
             <div class="form-group">
               <label for="fullName">Full Name</label>
-              <input type="text" class="form-control" placeholder="Full Name" name = "fullName" required>
+              <input type="text" class="form-control" placeholder="Full Name" name="fullName" required>
             </div>
             <div class="form-group">
               <label for="username">Username</label>
@@ -84,18 +71,18 @@
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" placeholder="Password" name = "Password" required>
+              <input type="password" class="form-control" placeholder="Password" name="Password" required>
             </div>
             <div class="form-group">
-              <label for="username">Phone Number</label>
+              <label for="mobileNumber">Phone Number</label>
               <div class="input-group">
                 <span class="input-group-addon">+60</span>
-                <input type="text" class="form-control" placeholder="123456789" name = "mobileNumber" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" required>
+                <input type="text" class="form-control" placeholder="123456789" name="mobileNumber" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" required>
               </div>
             </div>
             <div class="form-group">
               <label for="address">Address</label>
-              <textarea rows="3" class="form-control" name = "Address" placeholder="P. Sherman 42, Wallaby Way, Syndey" required></textarea>
+              <textarea rows="3" class="form-control" name="Address" placeholder="P. Sherman 42, Wallaby Way, Sydney" required></textarea>
             </div>
             <div class="form-group">
               <label for="userType">Are you a senior citizen or a service provider?</label>
@@ -121,28 +108,28 @@
                 <tbody>
                   <tr>
                     <td scope="row">
-                      <input type="checkbox" name="healthcareCheckbox" value="healthcare" disabled>
+                      <input type="checkbox" name="healthcareCheckbox" value="HEA" disabled>
                     </td>
                     <td scope="row">HEA</td>
                     <td scope="row">Healthcare</td>
                   </tr>
                   <tr>
                     <td scope="row">
-                      <input type="checkbox" name="shoppingCheckbox" value="shopping" disabled>
+                      <input type="checkbox" name="shoppingCheckbox" value="SHO" disabled>
                     </td>
                     <td scope="row">SHO</td>
                     <td scope="row">Shopping</td>
                   </tr>
                   <tr>
                     <td scope="row">
-                      <input type="checkbox" name="s3Checkbox" value="service3" disabled>
+                      <input type="checkbox" name="foodCheckbox" value="FNB" disabled>
                     </td>
                     <td scope="row">FNB</td>
                     <td scope="row">Food and Beverages</td>
                   </tr>
                   <tr>
                     <td scope="row">
-                      <input type="checkbox" name="s4Checkbox" value="service4" disabled>
+                      <input type="checkbox" name="cleaningCheckbox" value="CLE" disabled>
                     </td>
                     <td scope="row">CLE</td>
                     <td scope="row">Cleaning</td>
@@ -151,11 +138,9 @@
               </table>
             </div>
             <div class="form-group" align="center">
-              <button type="submit" name ="submitbutton" class="btn btn-primary">Sign Up</button>
+              <button type="submit" name="submitbutton" class="btn btn-primary">Sign Up</button>
             </div>
-        </form>
-</form>
-
+          </form>
         </div>
       </div>
 
@@ -165,7 +150,7 @@
         </div>
       </div>
     </div>
-</div>
+  </div>
 
     <footer class="footer">
       <div class="container">
@@ -195,9 +180,27 @@
           <div class="col-md-3 mb-5">
             <h3 class="footer-text-header">Quick Links</h3>
             <ul>
-              <li><a href="request.php">Submit A Request</a></li>
-              <li><a href="pendingrequest.php">View Pending Requests</a></li>
-              <li><a href="manage.php">View Request History</a></li>
+              <?php
+                if (isset($_SESSION['userType'])) {
+                  $type = $_SESSION['userType'];
+                  if ($type == "seniorCitizen") {
+                    echo '
+                    <li><a href="request.php">Submit a request</a></li>';
+                  } else if ($type == "serviceProvider") {
+                    echo '
+                    <li><a href="selectRequest.php">View pending requests</a></li>';
+                  }
+                  echo '
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                } else {
+                  echo '
+                  <li><a href="request.php">Submit a request</a></li>
+                  <li><a href="selectRequest.php">View pending requests</a></li>
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                }
+              ?>
             </ul>
           </div>
           <div class="col-md-3">

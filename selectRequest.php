@@ -5,17 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>SeniorServices | Home</title>
+    <title>SeniorServices | Pending Requests</title>
 
     <!-- Bootstrap -->
     <link href="../bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
-    <style media="screen">
-      .home-logo {
-        height: 64px;
-        width: 64px;
-      }
-    </style>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,49 +19,58 @@
     <![endif]-->
   </head>
   <body>
-
-<?php
-session_start();
-include('header.php');
-?>
-
+    <?php
+    session_start();
+    include('header.php');
+    ?>
     <div class="bg-img">
-    <div class="container">
-      <div class="jumbotron">
-        <div class="row panel panel-default">
-          <div class="col-md-4 panel-body" align="center">
-            <h3>How It Works</h3>
-            <img src="img/submit.png" alt="Submission logo" class="home-logo">
-            <p>1. Submit a Request</p>
-            <img src="img/match.png" alt="Match logo" class="home-logo">
-            <p>2. Get Matched</p>
-            <img src="img/relax.png" alt="Relax logo" class="home-logo">
-            <p>3. Hire and Relax</p>
-          </div>
+    <div class="container panel panel-default">
+      <div class="row panel-body">
+        <div class="col-md-6 col-md-offset-3">
+          <h3 align="center">Pending Requests</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="col-xs-2">ID</th>
+                <th scope="col" class="col-xs-2">Code</th>
+                <th scope="col" class="col-xs-3">Date</th>
+                <th scope="col" class="col-xs-5">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+                function mysqli_result($res, $row, $field=0) {
+                  $res->data_seek($row);
+                  $datarow = $res->fetch_array();
+                  return $datarow[$field];
+                }
 
-          <div class="col-md-8 panel-body" align="center">
-            <h3>Services Offered</h3>
-            <div class="row">
-              <div class="col-md-6 panel-body">
-                  <img src="img/healthcare.png" alt="Healthcare logo" class="home-logo">
-                  <p>Healthcare</p>
-              </div>
-              <div class="col-md-6 panel-body">
-                  <img src="img/shopping.png" alt="Shopping logo" class="home-logo">
-                  <p>Shopping</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6 panel-body">
-                  <img src="img/meal.png" alt="Meal logo" class="home-logo">
-                  <p>Food and Beverages</p>
-              </div>
-              <div class="col-md-6 panel-body">
-                  <img src="img/cleaning.png" alt="Cleaning logo" class="home-logo">
-                  <p>Cleaning</p>
-              </div>
-            </div>
-          </div>
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "seniorservices";
+                $con = new mysqli($servername, $username, $password, $dbname);
+
+                $sql = "SELECT * FROM request_table WHERE status = 'pending'";
+                $requests = mysqli_query($con, $sql);
+                mysqli_close($con);
+
+                $num = mysqli_num_rows($requests);
+                for ($x = 0; $x < $num; $x++) {
+                  $reqID = mysqli_result($requests, $x, "requestID");
+                  $code = mysqli_result($requests, $x, "serviceCode");
+                  $date = mysqli_result($requests, $x, "serviceDate");
+                  $notes = mysqli_result($requests, $x, "notes");
+                  echo '<tr>
+                  <td scope="col">'.$reqID.'</td>
+                  <td scope="col">'.$code.'</td>
+                  <td scope="col">'.$date.'</td>
+                  <td scope="col">'.$notes.'</td>
+                  <td scope="col"><a href="acceptRequest.php?id='.$reqID.'" class="btn btn-success">Accept</a></td></tr>';
+                }
+              ?>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -78,6 +82,7 @@ include('header.php');
         <div class="col-md-4 mb-5">
           <h3 class = "footer-text-header">About Us</h3>
           <p class ="footer-text-header">To provide an efficient convenience platform for senior citizens to request for services that they may require.</p>
+
         </div>
         <div class="col-md-5 mb-5">
           <h3 class = "footer-text-header">Contact Info</h3>

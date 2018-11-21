@@ -23,6 +23,7 @@
     session_start();
     include('header.php');
     ?>
+
     <div class="bg-img">
     <div class="container panel panel-default">
       <div class="row panel-body">

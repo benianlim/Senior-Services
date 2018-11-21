@@ -19,44 +19,70 @@
   </head>
   <body>
     <?php
-    session_start();
-    include('header.php');
+      session_start();
+      include('header.php');
+
+      function mysqli_result($res, $row, $field=0) {
+        $res->data_seek($row);
+        $datarow = $res->fetch_array();
+        return $datarow[$field];
+      }
+
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "seniorservices";
+      $con = new mysqli($servername, $username, $password, $dbname);
+
+      $reqID = $_GET['id'];
+      $sql = "SELECT * FROM request_table WHERE requestID = $reqID";
+      $request = mysqli_query($con, $sql);
+      mysqli_close($con);
+
+      $submitter = mysqli_result($request, 0, "submitter");
+      $serviceProvider = mysqli_result($request, 0, "serviceProvider");
     ?>
-<div class="bg-img">
-    <div class="container panel panel-default">
-      <div class="row panel-body">
-        <div class="col-md-6 col-md-offset-3">
-          <form id="myform" name="ReviewForm" method="post" action="addreview.php" autocomplete="off">
-          <table class="table">
-            <tbody>
-              <tr>
-                <h3 align="center">Submit a review</h3>
-                <h4 align ="center"> Select a rating</h4>
-                <div align ="center">
-                    <input type="radio" name="rating" value="1" checked>1
-                    <input type="radio" name="rating" value="2">2
-                    <input type="radio" name="rating" value="3">3
-                    <input type="radio" name="rating" value="4">4
-                    <input type="radio" name="rating" value="5">5
-                </div>
-              </tr>
-              <tr>
-                <h3 align="center">Leave a comment</h3>
-                <div class="form-group col-md-12">
-                  <label for="comments">Comment:</label>
-                  <textarea rows="4" name="comment" class="form-control" value=""></textarea>
-                </div>
-                <div class="form-group" align="center">
-                  <button type="submit" class="btn btn-success">Submit</button>
-                </div>
-              </tr>
-            </tbody>
-          </table>
-        </form>
+    <div class="bg-img">
+      <div class="container panel panel-default">
+        <div class="row panel-body">
+          <div class="col-md-6 col-md-offset-3">
+            <h3 align="center">Submit a Review</h3>
+            <form id="myform" name="ReviewForm" method="post" action="addReview.php" autocomplete="off">
+              <div class="form-group col-md-4">
+                <label for="requestID">Request ID:</label>
+                <input type="text" class="form-control" name="requestID" value="<?php echo $reqID?>" readonly="readonly">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="submitter">Request Submitter:</label>
+                <input type="text" class="form-control" name="submitter" value="<?php echo $submitter?>" readonly="readonly">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="serviceProvider">Service Provider:</label>
+                <input type="text" class="form-control" name="serviceProvider" value="<?php echo $serviceProvider?>" readonly="readonly">
+              </div>
+              <div class="form-group col-md-12">
+                <label for="rating">Select a rating (1 = lowest, 5 = highest):</label>
+                <select class="form-control" name="rating">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="comments">Additional Comments:</label>
+                <textarea rows="4" name="comments" class="form-control" placeholder="Enter your comments here."></textarea>
+              </div>
+              <div class="form-group" align="center">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <a href="manage.php"><button type="button" class="btn btn-basic">Cancel</button></a>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
     <footer class="footer">
       <div class="container">
@@ -85,9 +111,27 @@
           <div class="col-md-3 mb-5">
             <h3 class="footer-text-header">Quick Links</h3>
             <ul>
-              <li><a href="request.php">Submit A Request</a></li>
-              <li><a href="pendingrequest.php">View Pending Requests</a></li>
-              <li><a href="manage.php">View Request History</a></li>
+              <?php
+                if (isset($_SESSION['userType'])) {
+                  $type = $_SESSION['userType'];
+                  if ($type == "seniorCitizen") {
+                    echo '
+                    <li><a href="request.php">Submit a request</a></li>';
+                  } else if ($type == "serviceProvider") {
+                    echo '
+                    <li><a href="selectRequest.php">View pending requests</a></li>';
+                  }
+                  echo '
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                } else {
+                  echo '
+                  <li><a href="request.php">Submit a request</a></li>
+                  <li><a href="selectRequest.php">View pending requests</a></li>
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                }
+              ?>
             </ul>
           </div>
           <div class="col-md-3">

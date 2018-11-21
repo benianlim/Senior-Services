@@ -40,15 +40,28 @@
 	            <li class="dropdown">
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Requests<span class="caret" /></a>
 	              <ul class="dropdown-menu">
-	                <li><a href="request.php">Submit a request</a></li>
-	                <li><a href="pendingrequest.php">View pending requests</a></li>
-	                <li><a href="manage.php">View request history</a></li>
+									<?php
+										if (isset($_SESSION['userType'])) {
+											$type = $_SESSION['userType'];
+											if ($type == "seniorCitizen") {
+												echo '
+												<li><a href="request.php">Submit a request</a></li>';
+											} else if ($type == "serviceProvider") {
+												echo '
+												<li><a href="selectRequest.php">View pending requests</a></li>';
+											}
+											echo '
+											<li><a href="manage.php">View request history</a></li>
+											<li><a href="allReviews.php">View user reviews</a></li>';
+										}
+									?>
 	              </ul>
 	            </li>
 	            <li class = "dropdown">
 								<?php
 
-								if (isset($_SESSION['username'])){
+								if (isset($_SESSION['username'])) {
+
 									echo '
 							                <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 							        $username = $_SESSION["username"];
@@ -56,9 +69,7 @@
 
 									echo '	</a>
 						                <ul class="dropdown-menu dropdown-menu-right">
-						                    <li><a class="" href="#">My Account</a></li>
-						                    <li><a class="" href="manage-requests.php">Manage Requests</a></li>
-						                    <li><a class="" href="logout.php">Logout</a></li>
+						                    <li><a href="logout.php">Logout</a></li>
 						                </ul>';
 								}
 								else {

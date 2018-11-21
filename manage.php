@@ -23,7 +23,7 @@
     include('header.php');
     ?>
 
-    <div class ="bg-img">
+    <div class="bg-img">
     <div class="container panel panel-default">
       <div class="row panel-body">
         <div class="col-md-6 col-md-offset-3">
@@ -31,62 +31,46 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" class="col-xs-3">Request ID</th>
-                <th scope="col" class="col-xs-3">Status</th>
-                <th scope="col" class="col-xs-3"></th>
-                <th scope="col" class="col-xs-3"></th>
+                <th scope="col" class="col-xs-4">ID</th>
+                <th scope="col" class="col-xs-4">Code</th>
+                <th scope="col" class="col-xs-4">Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td scope="col">HE0001</td>
-                <td scope="col">Pending</td>
-                <td scope="col"><a href="#">Edit</a></td>
-                <td scope="col"><a href="review.php">Review</a></td>
-              </tr>
-              <tr>
-                <td scope="col">SH0001</td>
-                <td scope="col">Pending</td>
-                <td scope="col"><a href="#">Edit</a></td>
-                <td scope="col"><a href="review.php">Review</a></td>
-              </tr>
+              <?php
+                function mysqli_result($res, $row, $field=0) {
+                  $res->data_seek($row);
+                  $datarow = $res->fetch_array();
+                  return $datarow[$field];
+                }
+
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "seniorservices";
+                $con = new mysqli($servername, $username, $password, $dbname);
+
+                $currentUser = $_SESSION['username'];
+                $sql = "SELECT * FROM request_table WHERE submitter = '$currentUser' OR serviceProvider = '$currentUser'";
+                $requests = mysqli_query($con, $sql);
+                mysqli_close($con);
+
+                $num = mysqli_num_rows($requests);
+                for ($x = 0; $x < $num; $x++) {
+                  $reqID = mysqli_result($requests, $x, "requestID");
+                  $code = mysqli_result($requests, $x, "serviceCode");
+                  $status = mysqli_result($requests, $x, "status");
+
+                  echo '<tr>
+                  <td scope="col">'.$reqID.'</td>
+                  <td scope="col">'.$code.'</td>
+                  <td scope="col">'.$status.'</td>
+                  <td scope="col"><a href="edit.php?id='.$reqID.'" class="btn btn-primary">Edit</a></td>
+                  <td scope="col"><a href="review.php?id='.$reqID.'" class="btn btn-primary">Review</a></td></tr>';
+                }
+              ?>
             </tbody>
           </table>
-        </div>
-      </div>
-      <hr>
-      <div class="row panel-body">
-        <div class="col-md-6 col-md-offset-3">
-          <h3 align="center">Edit Request</h3>
-          <form role="form" method="post">
-            <div class="form-group col-md-6">
-              <label for="requestID">Request ID:</label>
-              <input type="text" class="form-control" name="requestID" value="" disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="serviceCode">Service Code:</label>
-              <input type="text" class="form-control" name="serviceCode" value="" disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="requestDate">Service Date:</label>
-              <input type="date" class="form-control" name="requestDate" value="" disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="requestStatus">Request Status:</label>
-              <select class="form-control" name="requestStatus" disabled>
-                <option value="Pending">Pending</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Completed">Completed</option>
-              </select>
-            </div>
-            <div class="form-group col-md-12">
-              <label for="comments">Additional Notes:</label>
-              <textarea rows="4" class="form-control" value="" disabled></textarea>
-            </div>
-            <div class="form-group" align="center">
-              <button type="submit" class="btn btn-success">Save Changes</button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
@@ -120,9 +104,27 @@
         <div class="col-md-3 mb-5">
           <h3 class="footer-text-header">Quick Links</h3>
           <ul>
-            <li><a href="request.php">Submit A Request</a></li>
-            <li><a href="pendingrequest.php">View Pending Requests</a></li>
-            <li><a href="manage.php">View Request History</a></li>
+            <?php
+              if (isset($_SESSION['userType'])) {
+                $type = $_SESSION['userType'];
+                if ($type == "seniorCitizen") {
+                  echo '
+                  <li><a href="request.php">Submit a request</a></li>';
+                } else if ($type == "serviceProvider") {
+                  echo '
+                  <li><a href="selectRequest.php">View pending requests</a></li>';
+                }
+                echo '
+                <li><a href="manage.php">View request history</a></li>
+                <li><a href="allReviews.php">View user reviews</a></li>';
+              } else {
+                echo '
+                <li><a href="request.php">Submit a request</a></li>
+                <li><a href="selectRequest.php">View pending requests</a></li>
+                <li><a href="manage.php">View request history</a></li>
+                <li><a href="allReviews.php">View user reviews</a></li>';
+              }
+            ?>
           </ul>
         </div>
         <div class="col-md-3">

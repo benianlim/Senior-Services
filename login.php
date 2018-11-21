@@ -1,48 +1,4 @@
 <!DOCTYPE html>
-<?php
-  session_start();
-  error_reporting(0);
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "user_database";
-  $con = new mysqli($servername, $username, $password, $dbname);
-
-  $login= $_POST['username'];
-  $pw= $_POST['password'];
-
-          if($login!=''&&$pw!='')
-          {
-           $query="SELECT * FROM user_table WHERE Username ='".$login."' and Password ='".$pw."'";
-
-           $result=mysqli_query($con,$query);
-
-           if(!$result)
-              die("Query Failed: " .  mysqli_error($conn));
-           else{
-               if(mysqli_num_rows($result)>0)
-               {
-                  $_SESSION['username']= $login;
-                  header("Location: home.php");
-               }
-      else
-       {
-         echo '<script language="javascript">';
-         echo 'alert("You entered username or password is incorrect")';
-         echo '</script>';
-       }
-   }
-  }
-
-  if(isset($_POST['loginBtn'])) {
-      $input = $_POST["Username"];
-      $input = $_POST["Password"];
-
-      header("Location: home.php");
-
-  }
-
-?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -80,7 +36,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Requests<span class="caret" /></a>
               <ul class="dropdown-menu">
                 <li><a href="request.php">Submit a request</a></li>
-                <li><a href="pendingrequest.php">View pending requests</a></li>
+                <li><a href="selectRequest.php">View pending requests</a></li>
                 <li><a href="manage.php">View request history</a></li>
               </ul>
             </li>
@@ -96,7 +52,7 @@
       <div class="row panel-body">
         <div class="col-md-6 col-md-offset-3">
           <h3 align="center">SeniorServices Login</h3>
-          <form role="form" method="post">
+          <form role="form" method="post" action = "userLogin.php">
             <div class="form-group">
               <label for="username">Username</label>
               <input type="text" class="form-control" name="username" placeholder="Username">
@@ -147,9 +103,27 @@
           <div class="col-md-3 mb-5">
             <h3 class="footer-text-header">Quick Links</h3>
             <ul>
-              <li><a href="request.php">Submit A Request</a></li>
-              <li><a href="pendingrequest.php">View Pending Requests</a></li>
-              <li><a href="manage.php">View Request History</a></li>
+              <?php
+                if (isset($_SESSION['userType'])) {
+                  $type = $_SESSION['userType'];
+                  if ($type == "seniorCitizen") {
+                    echo '
+                    <li><a href="request.php">Submit a request</a></li>';
+                  } else if ($type == "serviceProvider") {
+                    echo '
+                    <li><a href="selectRequest.php">View pending requests</a></li>';
+                  }
+                  echo '
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                } else {
+                  echo '
+                  <li><a href="request.php">Submit a request</a></li>
+                  <li><a href="selectRequest.php">View pending requests</a></li>
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                }
+              ?>
             </ul>
           </div>
           <div class="col-md-3">

@@ -20,15 +20,15 @@
   </head>
   <body>
     <?php
-    session_start();
-    include('header.php');
+      session_start();
+      include('header.php');
     ?>
-<div class = "bg-img">
+  <div class = "bg-img">
     <div class="container panel panel-default">
       <div class="row panel-body">
         <div class="col-md-6 col-md-offset-3">
           <h3 align="center">Submit a Request</h3>
-          <form role="form" method="post">
+          <form role="form" method="post" action="submitRequest.php">
             <div class="form-group col-md-6">
               <label for="serviceCode">Service Code:</label>
               <select class="form-control" name="serviceCode">
@@ -43,11 +43,11 @@
               <input type="date" class="form-control" name="requestDate">
             </div>
             <div class="form-group col-md-12">
-              <label for="comments">Additional Notes:</label>
-              <textarea rows="4" class="form-control" placeholder="Type in your comments for the helper here. (optional)"></textarea>
+              <label for="notes">Additional Notes:</label>
+              <textarea rows="4" class="form-control" name="notes" placeholder="Type in your notes for the helper here. (optional)"></textarea>
             </div>
             <div class="form-group" align="center">
-              <button type="submit" class="btn btn-primary">Submit Request</button>
+              <button type="submit" name="submitbutton" class="btn btn-primary">Submit Request</button>
             </div>
           </form>
         </div>
@@ -115,9 +115,27 @@
           <div class="col-md-3 mb-5">
             <h3 class="footer-text-header">Quick Links</h3>
             <ul>
-              <li><a href="request.php">Submit A Request</a></li>
-              <li><a href="pendingrequest.php">View Pending Requests</a></li>
-              <li><a href="manage.php">View Request History</a></li>
+              <?php
+                if (isset($_SESSION['userType'])) {
+                  $type = $_SESSION['userType'];
+                  if ($type == "seniorCitizen") {
+                    echo '
+                    <li><a href="request.php">Submit a request</a></li>';
+                  } else if ($type == "serviceProvider") {
+                    echo '
+                    <li><a href="selectRequest.php">View pending requests</a></li>';
+                  }
+                  echo '
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                } else {
+                  echo '
+                  <li><a href="request.php">Submit a request</a></li>
+                  <li><a href="selectRequest.php">View pending requests</a></li>
+                  <li><a href="manage.php">View request history</a></li>
+                  <li><a href="allReviews.php">View user reviews</a></li>';
+                }
+              ?>
             </ul>
           </div>
           <div class="col-md-3">

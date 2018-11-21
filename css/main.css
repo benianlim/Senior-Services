@@ -5,6 +5,7 @@
   background: url(../img/senior1.jpg);
   background-size: cover;
   background-position: center;
+  min-height: 65vh;
 }
 
 .navbar-default{
@@ -27,11 +28,11 @@
 
 .footer{
   background-color:#262626;
-  height:31vh;
+  min-height: 30vh;
 }
 .footer-login{
   background-color:#262626;
-  height:42vh;
+  height:30vh;
 }
 
 .footer-text-header{
